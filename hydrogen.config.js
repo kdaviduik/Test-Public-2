@@ -1,23 +1,20 @@
-import {
-  defineConfig,
-  CookieSessionStorage,
-  PerformanceMetricsServerAnalyticsConnector,
-} from '@shopify/hydrogen/config';
+import {defineConfig, CookieSessionStorage} from '@shopify/hydrogen/config';
 
 export default defineConfig({
-  shopify: () => ({
-    defaultLanguageCode: 'EN',
+  shopify: {
     defaultCountryCode: 'CA',
-    storeDomain: 'kara-daviduik.myshopify.com',
-    storefrontToken: 'aa20210cd84eac6a9b35f5003f0074ca',
+    defaultLanguageCode: 'EN',
+    storeDomain: Oxygen.env.PUBLIC_STORE_DOMAIN,
+    storefrontToken: Oxygen.env.PUBLIC_STOREFRONT_API_TOKEN,
+    privateStorefrontToken: Oxygen.env.PRIVATE_STOREFRONT_API_TOKEN,
     storefrontApiVersion: '2022-07',
-  }),
+    storefrontId: Oxygen.env.PUBLIC_STOREFRONT_ID,
+  },
   session: CookieSessionStorage('__session', {
     path: '/',
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
+    secure: import.meta.env.PROD,
+    sameSite: 'Strict',
     maxAge: 60 * 60 * 24 * 30,
   }),
-  serverAnalyticsConnectors: [PerformanceMetricsServerAnalyticsConnector],
 });
